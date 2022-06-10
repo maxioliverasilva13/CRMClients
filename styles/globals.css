@@ -18,3 +18,20 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.animatedMessage {
+  transition: all .3s ease;
+  animation: animatedMessageAlert .3s ease ;
+}
+
+@keyframes animatedMessageAlert  {
+  from {
+    top:-40px;
+  }
+  to {
+    top: 40px;
+  }
+}
+
+
+
