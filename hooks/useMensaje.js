@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useMensajeActions } from "../Store/reducers/MensajeReducer";
 
 const initialMensaje = {
   type: null,
@@ -6,20 +8,27 @@ const initialMensaje = {
 };
 
 const useMensaje = (additionalFunc) => {
-    const [mensaje, setMensaje] = useState(initialMensaje);
+  const { message, type } = useSelector((store) => store?.MensajeReducer);
 
-    useEffect(() => {
-      if (mensaje?.message) {
-        setTimeout(() => {
-          if (additionalFunc) {
-            additionalFunc(mensaje);
-          }
-          setMensaje(initialMensaje);
-        }, 3000);
-      }
-    }, [mensaje]);
+  const { changeMessage: setMensaje, resetMessage } = useMensajeActions();
 
-    return { mensaje, setMensaje }
-}
- 
+  useEffect(() => {
+    if (message) {
+      setTimeout(() => {
+        if (additionalFunc) {
+          additionalFunc(mensaje);
+        }
+        resetMessage();
+      }, 3000);
+    }
+  }, [message]);
+
+  const mensaje = {
+    message,
+    type,
+  };
+
+  return { mensaje, setMensaje };
+};
+
 export default useMensaje;

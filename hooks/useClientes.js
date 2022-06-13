@@ -1,17 +1,21 @@
-import React from "react";
-import { GET_CLIENTES } from "../mutations/Clientes";
-import { useQuery } from "@apollo/client";
-
-const DEFAULT_TOKEN_AUTH_KEY = "authToken";
+import { useMutation, useQuery } from "@apollo/client";
+import { CREATE_CLIENT, GET_CLIENTES } from "../mutations/Clientes";
 
 const useClientes = () => {
-    const { data: clientes, loading: loadingClientes, error: errorClientes } = useQuery(GET_CLIENTES);
+  const {
+    data: clientes,
+    loading: loadingClientes,
+    error: errorClientes,
+  } = useQuery(GET_CLIENTES);
+  const [newClient, { loading: loadingNewClient }] = useMutation(CREATE_CLIENT);
 
-    return {
-      clientes,
-      loadingClientes,
-      errorClientes,
-    }
-}
+  return {
+    clientes,
+    loadingClientes,
+    errorClientes,
+    newClient,
+    loadingNewClient,
+  };
+};
 
 export default useClientes;

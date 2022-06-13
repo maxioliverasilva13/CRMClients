@@ -1,10 +1,12 @@
-import React from "react";
 import Head from "next/head";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 import { useRouter } from "next/router";
+import useMensaje from "../hooks/useMensaje";
+import Alert from "./Alert";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
+  const { mensaje } = useMensaje();
   const { pathname } = useRouter();
   const isLogginPath = () => {
     switch (pathname) {
@@ -15,6 +17,17 @@ const Layout = ({ children }) => {
       default:
         return false;
     }
+  };
+
+  const showError = () => {
+    return (
+      <Alert
+        additionalCondition={mensaje?.message}
+        type="Alert"
+        message={mensaje.message}
+        errorType={mensaje.type}
+      />
+    );
   };
 
   return (
@@ -29,21 +42,25 @@ const Layout = ({ children }) => {
           referrerPolicy="no-referrer"
         />
       </Head>
-      {isLogginPath() ? (
-         <div className="bg-gray-800 min-h-screen w-full flex flex-col justify-center items-center ">
-          {children}
-         </div>
-      ) : (
+      <div className="relative">
+        {isLogginPath() ? (
+          <div className="bg-gray-800 min-h-screen w-full flex flex-col justify-center items-center ">
+            {showError()}
+            {children}
+          </div>
+        ) : (
           <div className="bg-gray-200 h-screen ">
             <div className="flex min-h-screen h-full">
               <Sidebar />
-              <main className="flex-grow p-4">
+              <main className="flex-grow p-4 relative">
+                {showError()}
                 <Header />
                 {children}
               </main>
             </div>
           </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
