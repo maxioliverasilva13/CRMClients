@@ -1,15 +1,11 @@
 import { useFormik } from "formik";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import * as Yup from "yup";
 import Alert from "../Components/Alert";
 import Layout from "../Components/Layout";
 import useMensaje from "../hooks/useMensaje";
 import useUsuario from "../hooks/useUsuario";
-
-const initialMensaje = {
-  type: null,
-  message: null,
-};
 
 const SignUp = () => {
   const { nuevoUsuario, loadingNuevoUsuario } = useUsuario();
@@ -163,6 +159,19 @@ const SignUp = () => {
               />
               {formmikError("password")}
             </div>
+
+            <p className="my-2 font-light">
+              No tienes una cuenta ?{" "}
+              <Link href="/signup">
+                <span
+                  className="font-bold text-gray-800 hover:border-b-2 border-b-gray-800 cursor-pointer"
+                  n
+                >
+                  Registrate
+                </span>
+              </Link>
+            </p>
+
             <input
               type="submit"
               className="bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:bg-gray-900 hover:scale-105 transition cursor-pointer rounded disabled:bg-gray-400"

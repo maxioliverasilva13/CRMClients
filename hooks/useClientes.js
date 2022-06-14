@@ -57,26 +57,8 @@ const useClientes = (props) => {
     }
   );
 
-  const [updateClient, { loading: loadingUpdateClient }] = useMutation(
-    UPDATE_CLIENT
-    // {
-    //   update: (cache) => {
-    //     const { getClientesVendedor } = cache.readQuery({
-    //       query: GET_CLIENTES,
-    //     });
-
-    //     // rescribimos el cache
-    //     cache.writeQuery({
-    //       query: GET_CLIENTES,
-    //       data: {
-    //         getClientesVendedor: getClientesVendedor?.filter(
-    //           (clienteActual) => clienteActual.id != clientIdToDelete
-    //         ),
-    //       },
-    //     });
-    //   },
-    // }
-  );
+  const [updateClient, { loading: loadingUpdateClient }] =
+    useMutation(UPDATE_CLIENT);
 
   const {
     data: clientInfo,
