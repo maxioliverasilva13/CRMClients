@@ -34,4 +34,18 @@ a {
 }
 
 
+.settingsModal {
+  transition: all .3s ease;
+  animation: settingsModalAnim .3s ease ;
+}
+
+
+@keyframes settingsModalAnim  {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 

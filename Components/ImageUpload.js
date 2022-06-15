@@ -1,6 +1,7 @@
+import clsx from "clsx";
 import { useState } from "react";
 
-const ProductImageUpload = ({ url, setFile }) => {
+const ImageUpload = ({ url, setFile, isCircle = false }) => {
   const [localUrl, setLocalUrl] = useState(url);
 
   const onChangeImage = (e) => {
@@ -12,13 +13,24 @@ const ProductImageUpload = ({ url, setFile }) => {
   return (
     <div className="w-full h-full object-cover overflow-hidden flex items-center justify-center">
       {localUrl ? (
-        <img className="w-11/12 h-full max-w-11/12 max-h-full" src={localUrl} />
+        <img
+          className={clsx(
+            "object-cover",
+            isCircle
+              ? "rounded-full w-full h-full max-w-full max-h-full"
+              : "w-11/12 h-full max-w-11/12 max-h-full"
+          )}
+          src={localUrl}
+        />
       ) : (
         <>
           <div className="flex justify-center items-center w-full h-full">
             <label
               htmlFor="dropzone-file"
-              className="flex flex-col justify-center items-center w-full h-full bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              className={clsx(
+                "flex flex-col justify-center items-center w-full h-full bg-gray-50 border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600",
+                isCircle ? "rounded-full" : "rounded-lg"
+              )}
             >
               <div className="flex flex-col justify-center items-center pt-5 pb-6">
                 <svg
@@ -35,10 +47,12 @@ const ProductImageUpload = ({ url, setFile }) => {
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   ></path>
                 </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop
-                </p>
+                {!isCircle && (
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold">Click to upload</span> or
+                    drag and drop
+                  </p>
+                )}
               </div>
               <input
                 accept="image/*"
@@ -46,6 +60,7 @@ const ProductImageUpload = ({ url, setFile }) => {
                 id="dropzone-file"
                 type="file"
                 className="hidden"
+                draggable
               />
             </label>
           </div>
@@ -55,4 +70,4 @@ const ProductImageUpload = ({ url, setFile }) => {
   );
 };
 
-export default ProductImageUpload;
+export default ImageUpload;

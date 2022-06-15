@@ -49,6 +49,8 @@ const EditarProducto = () => {
     }
   };
 
+  console.log(productoInfo?.obtenerProducto);
+
   return (
     <Layout>
       {loadingProductoInfo || !productoInfo?.obtenerProducto ? (

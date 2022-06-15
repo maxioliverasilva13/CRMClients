@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import useMensaje from "../hooks/useMensaje";
 import Alert from "./Alert";
 import Header from "./Header";
+import PrivateRoute from "./Routes/PrivateRoute";
+import PublicRoute from "./Routes/PublicRoute";
 import Sidebar from "./Sidebar";
 
 const Layout = ({ children }) => {
@@ -44,21 +46,27 @@ const Layout = ({ children }) => {
       </Head>
       <div className="relative">
         {isLogginPath() ? (
-          <div className="bg-gray-800 min-h-screen w-full flex flex-col justify-center items-center ">
-            {showError()}
-            {children}
-          </div>
-        ) : (
-          <div className="bg-gray-200 h-screen ">
-            <div className="flex min-h-screen h-full">
-              <Sidebar />
-              <main className="flex-grow p-4 relative">
-                {showError()}
-                <Header />
-                {children}
-              </main>
+          <PublicRoute>
+            <div className="bg-gray-800 min-h-screen w-full flex flex-col justify-center items-center ">
+              {showError()}
+              {children}
             </div>
-          </div>
+          </PublicRoute>
+        ) : (
+          <PrivateRoute>
+            <div className="bg-gray-200 h-screen ">
+              <div className="flex min-h-screen h-full flex-col items-center justify-center">
+                <Header />
+                <div className="flex-grow w-full flex flex-row items-start justify-center">
+                  <Sidebar />
+                  <main className="flex-grow p-4 relative flex flex-col h-full">
+                    {showError()}
+                    {children}
+                  </main>
+                </div>
+              </div>
+            </div>
+          </PrivateRoute>
         )}
       </div>
     </>

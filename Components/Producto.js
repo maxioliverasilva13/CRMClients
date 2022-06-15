@@ -58,7 +58,7 @@ const Producto = ({ producto }) => {
   };
 
   return (
-    <div className="w-52 h-auto rounded-lg overflow-hidden mx-4 flex shadow-md flex-col items-center justify-center">
+    <div className="w-52 m-4 h-auto rounded-lg overflow-hidden mx-4 flex shadow-md flex-col items-center justify-center">
       <div className="w-full h-32 bg-gray-200">
         {url && <img className="w-full h-full object-cover" src={url}></img>}
       </div>

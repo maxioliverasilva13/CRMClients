@@ -6,7 +6,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { RiEditFill } from "react-icons/ri";
 import * as Yup from "yup";
 import { uploadImage } from "../helpers/cloudDinary";
-import ProductImageUpload from "./ProductImageUpload";
+import ImageUpload from "./ImageUpload";
 
 const NuevoProductoForm = ({ onSubmit, loading, initialValues, isEdit }) => {
   const [file, setFile] = useState(null);
@@ -32,6 +32,7 @@ const NuevoProductoForm = ({ onSubmit, loading, initialValues, isEdit }) => {
     }),
     onSubmit: async (valores) => {
       let url =
+        valores?.url ||
         "https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png";
       if (file) {
         const imageUrl = await uploadImage(file);
@@ -69,10 +70,10 @@ const NuevoProductoForm = ({ onSubmit, loading, initialValues, isEdit }) => {
   };
 
   return (
-    <div className="w-full mt-40 flex-grow flex items-center justify-center">
+    <div className="w-full h-auto flex-grow flex items-center justify-center">
       <div className="w-auto h-auto rounded-lg overflow-hidden flex shadow-xl flex-col items-center justify-center bg-gray-100">
         <div className="w-full h-40 bg-gray-200">
-          <ProductImageUpload setFile={setFile} url={initialValues?.url} />
+          <ImageUpload setFile={setFile} url={initialValues?.url} />
         </div>
         <form
           onSubmit={handleSubmit}

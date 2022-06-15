@@ -1,21 +1,26 @@
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import * as Yup from "yup";
 import Alert from "../Components/Alert";
+import ImageUpload from "../Components/ImageUpload";
 import Layout from "../Components/Layout";
+import { uploadImage } from "../helpers/cloudDinary";
 import useMensaje from "../hooks/useMensaje";
 import useUsuario from "../hooks/useUsuario";
 
 const SignUp = () => {
   const { nuevoUsuario, loadingNuevoUsuario } = useUsuario();
+  const [file, setfile] = useState();
+
   const { push } = useRouter();
   const redirectToLogin = (message) => {
     if (message?.type === "Success") {
       push("/login");
     }
   };
-  const { mensaje, setMensaje } = useMensaje(redirectToLogin);
+  const { setMensaje } = useMensaje(redirectToLogin);
 
   const {
     values,
@@ -44,9 +49,19 @@ const SignUp = () => {
     }),
     onSubmit: async (valores) => {
       try {
+        let url =
+          "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-27.jpg";
+        if (file) {
+          const imageUrl = await uploadImage(file);
+          url = imageUrl;
+        }
+
         const { data } = await nuevoUsuario({
           variables: {
-            input: valores,
+            input: {
+              ...valores,
+              profile_photo: url,
+            },
           },
         });
         if (data?.newUser?.id) {
@@ -86,6 +101,17 @@ const SignUp = () => {
             onSubmit={handleSubmit}
             className="w-full bg-white transition ease-in-out delay-1000 rounded shadow-md px-8 pt-6 pb-8 mb-4 "
           >
+            <div className=" w-full h-auto flex flex-row items-center justify-start">
+              <div className="w-32 h-32 rounded-full bg-gray-200 overflow-hidden ">
+                <ImageUpload isCircle setFile={setfile} />
+              </div>
+              <label
+                className="ml-4 block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="dropzone-file"
+              >
+                Profile Photo
+              </label>
+            </div>
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"

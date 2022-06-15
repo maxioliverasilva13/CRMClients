@@ -3,26 +3,27 @@ import { setContext } from "apollo-link-context";
 import fetch from "node-fetch";
 
 const httpLink = createHttpLink({
-   uri: "http://localhost:4000",
-   fetch,
-})
-
-const authLink = setContext((_, { headers } ) => {
-    //Read the storage 
-    const token = () => localStorage.getItem("authToken");
-
-    return {
-        headers: {
-            ...headers,
-            authorization: token() ? `Bearer ${token()}` : null,
-        }
-    }
-})
-
-const Client = new ApolloClient({
-    connectToDevTools: true,
-    cache: new InMemoryCache(),
-    link: authLink.concat(httpLink)
+  uri: "http://localhost:4000",
+  fetch,
 });
 
-export default Client
+const authLink = setContext((_, { headers }) => {
+  //Read the storage
+  const token = localStorage.getItem("authToken");
+
+  console.log("token is", token);
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : null,
+    },
+  };
+});
+
+const Client = new ApolloClient({
+  connectToDevTools: true,
+  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink),
+});
+
+export default Client;
